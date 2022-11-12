@@ -1,11 +1,14 @@
 import express from "express";
+import bodyParser from "body-parser";
 import cors from "cors";
 
 import userRoutes from "./routes/users.js";
  
 const app = express();
 const PORT = 5000;
- 
+
+// Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+app.use(bodyParser.json())
 app.use(cors());
 app.use(express.json());
 

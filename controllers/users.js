@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 let users = [];
 
 export const getUsersList = (req, res) => {
-    res.send(users);
+    res.status(200).json(users);
 };
 
 

@@ -4,7 +4,8 @@ import cors from "cors";
 
 import userRoutes from "./routes/users.js";
 import tasksRoutes from './routes/tasks.js';
- 
+import axiosAPI from './routes/categories.js';
+
 const app = express();
 const PORT = 5000;
 
@@ -29,8 +30,10 @@ app.get("/", (req, res) => {
     // res.send('Hello from node-express-api !')
 });
 
-// If Routes not match
+//axiosAPI
+app.use('/axiosAPI', axiosAPI);
 
+// If Routes not match
 app.all("*", (req, res, next) => {
     
     console.log('The request not exist!', next);

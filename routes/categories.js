@@ -1,8 +1,8 @@
-import express from 'express';
+import { Router } from 'express';
 
 import * as axiosAPI from '../controllers/categories.js';
 
-const router = express.Router();
+const router = Router();
 
 router.get('/', axiosAPI.getData);
 

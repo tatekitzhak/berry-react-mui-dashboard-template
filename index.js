@@ -1,10 +1,15 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import EventEmitter from 'events';
+
 
 import userRoutes from "./routes/users.js";
 import tasksRoutes from './routes/tasks.js';
 import axiosAPI from './routes/categories.js';
+
+// Log Events
+import { logEvents } from './logEvents.js';
 
 const app = express();
 const PORT = 5000;
@@ -24,21 +29,29 @@ app.use(express.json());
 
 app.use("/", userRoutes);
 app.use('/tasks', tasksRoutes);
+app.use('/axiosAPI', axiosAPI);
 
 app.get("/", (req, res) => {
     res.status(200).json('Hello from node-express-api !')
     // res.send('Hello from node-express-api !')
 });
 
-//axiosAPI
-app.use('/axiosAPI', axiosAPI);
-
-// If Routes not match
+// If routes not match
 app.all("*", (req, res, next) => {
     
     console.log('The request not exist!', next);
     res.status(404).json('Not Found: ' +404)
 });
+
+// Build log events instance
+class Emitter extends EventEmitter { };
+const appEmitter = new Emitter();
+
+// Add listener for the log event 
+appEmitter.on('log', (msg) => logEvents(msg))
+setTimeout(() => {
+    appEmitter.emit('log', 'Log event emitted.')
+}, 2000);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: http://loclalhost:${PORT}`)

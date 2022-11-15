@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-http-server",
+  "name": "nodejs-http-web-server",
   "version": "1.0.0",
   "description": "",
   "type": "module",

@@ -59,18 +59,29 @@ function errorHandlingMiddlewareFunction(error, request, res, next) {
 
     if (error) {
         
-        res.send({ errorMessage: error.message })
+        res.send({ errorMessage: error })
     }
 
     next();
 }
 
-app.get('/user/:id', loadUser, (req, res, next) => {
-    console.log('Get:', req.params, 'userData:',req.userData);
-    res.send({ customProperty: req.userData})
-});
-app.use(errorHandlingMiddlewareFunction);
+function logOriginalUrl (req, res, next) {
+    console.log('Request URL:', req.originalUrl)
+    next()
+  } 
+  
+  function logMethod(req, res, next) {
+    console.log('Request Type:', req.method)
+    next()
+  }
+  
+  var logStuff = [logOriginalUrl, logMethod];
+  
+  app.get('/user/:id', logStuff, function (req, res, next) {
+    res.send('User Info')
+  })
 
 app.listen(3700, (error) => {
     console.log(`Server is listening on port: http://loclalhost:3700`)
 });
+app.use(errorHandlingMiddlewareFunction)

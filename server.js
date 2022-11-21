@@ -1,4 +1,6 @@
 import express from 'express';
+import fs from 'fs';
+import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
@@ -16,16 +18,30 @@ const app = express();
 // custom middleware logger
 app.use(logger);
 
+// custom middleware morgan logger
+
+// create a write stream (in append mode)
+
 app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 
+// const streamMorganLogger = fs.createWriteStream(path.join(path.resolve(), 'access.log'), { flags: 'a' })
+
 app.use('/', express.static(path.join(path.resolve(), '/public')));
 
+
+var accessLogStream = fs.createWriteStream(path.join(path.resolve(), 'access.log'), { flags: 'a' })
+app.use(morgan('combined', { 
+    stream: accessLogStream 
+}))
 // routes
 app.use('/', rootRouter);
+
+
+
 app.use('/explore', topicsRouter);
 
 app.all('*', (req, res) => {

@@ -1,0 +1,4 @@
+20221117	23:43:02	a0bdc6b2-b916-4005-ae48-1cc5295fa14d	TypeError: Cannot read property 'status' of undefined
+20221117	23:45:31	7851285d-8d04-400a-b763-c2e4c563a625	TypeError: Cannot read property 'status' of undefined
+20221118	00:10:24	9c68eab5-5980-4a74-a795-465bf2d113a3	Error: Not allowed by CORS
+20221118	00:10:24	5c236ff2-aae3-40c1-a818-de3cc3a1693f	Error: Not allowed by CORS

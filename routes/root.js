@@ -11,10 +11,12 @@ rootRouter.get('/', async (req, res) => {
     try {
       const response = await axios.get('https://jsonplaceholder.typicode.com/comments?postId=1');
       console.log('response:',response.status);
-      if (response.status !== 200)
-        res.status(404).json({ message: `No data were found with ... ` })
-  
-      res.status(200).json(response.data)
+    
+      if (response.status === 200) {
+        res.status(response.status).json(response.data)
+      } else {
+        res.status(response.status).json({ message: `No data were found with ... ` });
+      }
     } catch (error) {
       console.log('catch error:',error);
       res.status(500).json({ error, message: 'Error retrieving the job' })

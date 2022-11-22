@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-
+import mongooseConnect from './model/db/mongoose.js';
 
 import { corsOptions } from './config/corsOptions.js';
 import { logger } from './middleware/logEvents.js';
@@ -43,6 +43,8 @@ app.use('/', rootRouter);
 
 
 app.use('/explore', topicsRouter);
+
+mongooseConnect()
 
 app.all('*', (req, res) => {
     res.status(404);

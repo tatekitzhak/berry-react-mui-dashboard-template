@@ -1,19 +1,20 @@
 import express from 'express';
 import path from 'path';
-import axios from 'axios';
+import axios from 'axios'; 
+import { Post } from '../model/Post.js'; 
 
 const rootRouter = express.Router();
 
 
-rootRouter.get('/', async (req, res) => {
-    console.log('root:', req.query)
-    // res.sendFile(path.join(path.resolve(), '..', 'views', 'index.html'));
+rootRouter.route('/').get(async (req, res) => {
+    
     try {
       const response = await axios.get('https://jsonplaceholder.typicode.com/comments?postId=1');
-      console.log('response:',response.status);
+      const posts = await Post.find()
+      console.log('posts:',posts);
     
       if (response.status === 200) {
-        res.status(response.status).json(response.data)
+        res.status(response.status).json(posts)
       } else {
         res.status(response.status).json({ message: `No data were found with ... ` });
       }
@@ -22,6 +23,13 @@ rootRouter.get('/', async (req, res) => {
       res.status(500).json({ error, message: 'Error retrieving the job' })
     }
 
-});
+}).post(async (req, res) => {
+	const post = new Post({
+		title: req.body.title,
+		content: req.body.content,
+	})
+	await post.save()
+	res.send(post)
+})
 
 export { rootRouter };

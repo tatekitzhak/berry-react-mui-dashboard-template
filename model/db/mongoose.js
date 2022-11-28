@@ -1,7 +1,8 @@
+import express from 'express';
 import mongoose from 'mongoose';
 
 var db = "mongodb://127.0.0.1:27017"; 
-async function mongooseConnect() {
+async function mongooseConnect(req, res, next) {
     console.log('mongoose connections process...')
     try {
         const connect = await mongoose.connect(db,
@@ -10,10 +11,11 @@ async function mongooseConnect() {
                 useUnifiedTopology: true
             });
             console.log('Connection successful !!!', connect.STATES)
-
+            
     } catch (error) {
         console.log('Connection failed: ', error)
     }
+    
 }
 
 

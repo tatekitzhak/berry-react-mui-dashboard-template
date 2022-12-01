@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose")
 
 const schema = mongoose.Schema({
 	title: String,
 	content: String,
 })
 
- const Post = mongoose.model("Post", schema)
- export { Post };
+module.exports = mongoose.model("Post", schema)

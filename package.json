@@ -1,11 +1,10 @@
 {
-  "name": "node_express_mvc",
+  "name": "node_express_mongodb",
   "version": "1.0.0",
-  "description": "Node Express MVC",
-  "type": "module",
+  "description": "Node Express and mongoDB",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
+    "trans": "nodemon trans.js",
     "dev": "nodemon server"
   },
   "author": "",

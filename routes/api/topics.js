@@ -1,9 +1,10 @@
-import express from 'express';
-import  * as topicsController from '../../controllers/topics.js';
+const express = require("express");
+
+const getAllTopics = require('../../controllers/topics');
 
 const topicsRouter = express.Router();
 
-topicsRouter.route('/topics')
-    .get(topicsController.getAllTopics);
+topicsRouter.route('/')
+    .get(getAllTopics);
 
-export { topicsRouter };
+module.exports = topicsRouter ;

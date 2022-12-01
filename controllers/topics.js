@@ -1,31 +1,19 @@
-import { topics } from "../model/topics.js";
 
-const data = {
-    topics: topics,
-    setTopics: function (data) { this.topics = data }
-};
-
-const getAllTopics = (req, res) => {
-   
-    if (0) {
-        return res
-            .status(404)
-            .json({
-                "message": "lng and lat query parameters are required"
-            });
-    }
+const Post = require('../model/Post');
+async function getAllTopics(req, res) {
     try {
-
-        res
-            .status(200)
-            .json(data.topics);
-    } catch (err) {
-        res
-            .status(404)
-            .json(err);
-    }
+        
+        const posts = await Post.find()
+        
+        if (posts.length) {
+          res.status(200).send({ status: 200, data: posts })
+        } else {
+          res.status(404).json({ status: 404, message: `Not Found ` });
+        }
+      } catch (error) {
+        console.log('catch error:',error);
+        res.status(500).json({ status: 500 , message: error })
+      }
 }
 
-export {
-    getAllTopics
-}
+module.exports = getAllTopics;

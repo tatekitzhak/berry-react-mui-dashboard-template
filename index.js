@@ -4,13 +4,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const mongooseConnect = require('./config/mongoose');
-const { port } = require('./config/varsenv');
-const rootRouter = require('./routes/root')
-const topicsRouter = require('./routes/api/topics')
-const todosRouter = require('./routes/api/todos');
+const mongooseConnection = require('./db/connection');
+const { port } = require('./config/env');
+const AuthorsRouter = require('./routes/route')
 const app = express();
-const router = express.Router()
 
 app.use(morgan('combined'));
 app.use(helmet()); // secure apps by setting various HTTP headers
@@ -21,16 +18,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // open mongoose connection
-mongooseConnect();
+mongooseConnection('index.js');
 
-router.use((req,res,next)=>{
-    res.json({kay:'pp'})
-    next()
-})
 
-app.use('/',rootRouter);
-app.use('/topics', topicsRouter);
-app.use('/todos', todosRouter);  
+// app.use('/',(req,res,next)=>{
+//     res.json({home_2:'home 2'})
+//     next()
+// });
+app.use('/authors', AuthorsRouter);
+// app.use('/books', todosRouter);  
 
 
 // listen to requests

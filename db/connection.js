@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-const { mongo } = require('../config/varsenv');
+const { mongo } = require('../config/env');
 
-async function mongooseConnect(args) {
+async function mongooseConnection(args) {
     console.log('\x1b[36m', `${args}:`, '\x1b[0m', 'connections process...');
 
     await mongoose.connect(mongo.uri,
@@ -20,4 +20,4 @@ async function mongooseConnect(args) {
 
 }
 
-module.exports = mongooseConnect;
+module.exports = mongooseConnection;

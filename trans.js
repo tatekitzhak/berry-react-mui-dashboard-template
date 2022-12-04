@@ -1,6 +1,6 @@
 const mongooseConnect = require('./db/conn');
 // const Record = require('./model/schemas/record');
-const { record, subdocument } = require('./model/index');
+const { record, subdocument, blogPost, comment } = require('./model/index');
 
 async function transcript() {
 
@@ -91,7 +91,7 @@ async function transcript() {
 
 mongooseConnect('transcript');
 
-subdocument()
+comment()
   .catch(error => {
     console.log('error transcript: \n', error)
   });

@@ -1,6 +1,8 @@
 const Record2 = require('./schemas/record2');
 const Record = require('./schemas/record');
 const Subdocument = require('./schemas/subdocument');
+const BlogPost = require('./blog/post');
+const Comment = require('./blog/comment');
 
 
 module.exports = {
@@ -58,5 +60,31 @@ module.exports = {
                 return console.log('error subdoc:\n', error);
             console.log('rec1 subdoc saved:', rec);
         });
-    }
+    },
+    async blogPost() {
+
+        const post = new BlogPost({
+            title: 'Sport',
+            content: `The world cups are, depending on the sport`
+        });
+        await post.save(function (error, rec) {
+            if (error)
+                return console.log('error post:\n', error);
+            console.log(' post saved:\n', rec);
+        });
+
+    },
+    async comment() {
+
+        const comment = new Comment({
+            comments: `A12445TBreaking World Cup 2022 news and in-depth analysis from the best newsroom in sports.`
+        });
+        const savedComment = await comment.save();
+
+        const blogPost = await BlogPost.findOne({ title: 'Weather' })
+        blogPost.comments.push(savedComment._id)
+        const savedPost = await blogPost.save()
+        console.log('savedPost:\n',savedComment._id)
+
+    },
 }

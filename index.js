@@ -6,7 +6,7 @@ const helmet = require('helmet');
 
 const mongooseConnection = require('./db/connection');
 const { port } = require('./config/env');
-const AuthorsRouter = require('./routes/route')
+const { AuthorsRouter, BooksRouter } = require('./routes/route')
 const app = express();
 
 app.use(morgan('combined'));
@@ -25,7 +25,7 @@ mongooseConnection('index.js');
 //     res.json({home_2:'home 2'})
 //     next()
 // });
-app.use('/authors', AuthorsRouter);
+app.use('/', require('./routes/route'));
 // app.use('/books', todosRouter);  
 
 

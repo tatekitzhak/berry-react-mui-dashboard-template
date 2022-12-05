@@ -1,4 +1,5 @@
-const { Author } = require('../model/index');
+const mongoose = require('mongoose');
+const { Author, Book } = require('../model/index');
 
 const AuthorsController = {
     async findAll(req, res) {
@@ -24,12 +25,23 @@ const AuthorsController = {
             
             const author = await Author.findById(req.params.id).populate('books');
             console.log('AuthorsController findById:\n', author);
-            if (1) {
-                res.status(404).json({ status: 404, message: 'Find data By Id is empty ' });
+            if (!author) {
+                res.status(404).json({ status: 404, message: author});
                 
               } else {
                 res.status(200).json({ author: 'author' });
               }
+
+        } catch (error) {
+            console.log('error:\n', error);
+        }
+    }, 
+    async createAuthors(req, res){
+        try {
+            
+            
+            console.log('AuthorsController createAuthors:\n', req.body);
+            res.status(200).json({ author: req.body });
 
         } catch (error) {
             console.log('error:\n', error);

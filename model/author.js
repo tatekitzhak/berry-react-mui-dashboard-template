@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const authorSchema = mongoose.Schema({
   name: { 
   	type: String, 
-  	required: 'The path is required!'
+  	required: '{PATH} is required!'
   },
   bio: {
   	type: String

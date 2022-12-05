@@ -1,4 +1,4 @@
-https://www.freecodecamp.org/news/mongoose101/
+https://blog.jscrambler.com/build-database-relationships-with-node-js-and-mongodb
 
 node_express_mongodb@1.0.0 /Users/eli/git_repos/full-stack/crud-nodejs-express
 ├─┬ axios@1.2.0

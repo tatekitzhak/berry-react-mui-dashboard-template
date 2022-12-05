@@ -29,7 +29,7 @@ const AuthorsController = {
                 res.status(404).json({ status: 404, message: author});
                 
               } else {
-                res.status(200).json({ author: 'author' });
+                res.status(200).json({ author: author });
               }
 
         } catch (error) {
@@ -38,9 +38,16 @@ const AuthorsController = {
     }, 
     async createAuthors(req, res){
         try {
-            
-            
+            const authors = req.body;
             console.log('AuthorsController createAuthors:\n', req.body);
+
+            for (author of authors) {
+                var newAuthor = new Author(author);
+                await newAuthor.save();
+              }
+            
+              const a = await Author.find();
+              console.log('authors: ', a);
             res.status(200).json({ author: req.body });
 
         } catch (error) {

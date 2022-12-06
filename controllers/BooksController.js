@@ -13,12 +13,12 @@ module.exports = {
     },
     async createBookAndReferenceToAuthorById(req, res, next) {
         try {
-            const books = req.body;
+            const { subtitle, title, authorId } = req.body[0];
 
-            const book_title = books[0].title;
-            const subtitle = books[0].subtitle;
-            const authorId = books[0].author;
-            console.log('createBook :\n', authorId);
+            // const book_title = books[0].title;
+            // const subtitle = books[0].subtitle;
+            // const authorId = books[0].author;
+            console.log('createBook :\n', subtitle, title, authorId);
 
             if (!ObjectId.isValid(authorId)) {
                 throw new Error('author object id not passed');
@@ -27,7 +27,7 @@ module.exports = {
             const author = await Author.findOne({ _id: authorId });
             console.log('author :\n', author);
 
-            let book = new Book({ title: book_title, subtitle: subtitle, author: authorId});
+            let book = new Book({ title: title, subtitle: subtitle, author: authorId});
 
             const book_saved = await book.save();
 

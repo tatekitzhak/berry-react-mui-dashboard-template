@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ObjectId = require('mongoose').Types.ObjectId;
 const { Author, Book } = require('../model/index')
 
 module.exports = {
@@ -10,17 +11,23 @@ module.exports = {
             next(err);
         }
     },
-    async createBookAndReferenceToAuthor(req, res, next) {
+    async createBookAndReferenceToAuthorById(req, res, next) {
         try {
             const books = req.body;
 
-            const book_author = books[0].author;
             const book_title = books[0].title;
-            console.log('createBook :\n', book_author, book_title);
+            const subtitle = books[0].subtitle;
+            const authorId = books[0].author;
+            console.log('createBook :\n', authorId);
 
-            const author = await Author.findOne({ name: book_author });
+            if (!ObjectId.isValid(authorId)) {
+                throw new Error('author object id not passed');
+              }
 
-            let book = new Book({ title: book_title, author: author._id });
+            const author = await Author.findOne({ _id: authorId });
+            console.log('author :\n', author);
+
+            let book = new Book({ title: book_title, subtitle: subtitle, author: authorId});
 
             const book_saved = await book.save();
 

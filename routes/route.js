@@ -26,6 +26,6 @@ router.route('/authors')
 
     router.route('/books')
       .get(BooksController.getAllBooks)
-      .post(BooksController.createBook);
+      .post(BooksController.createBookAndReferenceToAuthor);
 
 module.exports = router;

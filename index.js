@@ -29,7 +29,16 @@ app.use('/', require('./routes/route'));
 // app.use('/books', todosRouter);  
 
 
-// listen to requests
+/* Error handler middleware */
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    console.log('Error handler:\n',err.message, err.stack);
+    res.status(statusCode).json({'message': err.message});
+    
+    return;
+  });
+
 app.listen(port, () => {
      console.log(`server started on http://localhost:${port} `) 
     });

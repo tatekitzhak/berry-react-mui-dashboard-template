@@ -10,35 +10,32 @@ module.exports = {
             next(err);
         }
     },
-    async createBook(req, res, next) {
+    async createBookAndReferenceToAuthor(req, res, next) {
         try {
             const books = req.body;
-            console.log('createBook :\n', books[0], books[1]);
-            const title_harry_potter = books[0].title;
-            const title_awakenGiant = books[1].title;
 
-            const jkRowling = await Author.findOne({ name: 'JK Rowling' });
-            const tonyRobbins = await Author.findOne({ name: 'Tony Robbins' });
+            const book_author = books[0].author;
+            const book_title = books[0].title;
+            console.log('createBook :\n', book_author, book_title);
 
-            let harryPotter = new Book({ title: title_harry_potter, author: jkRowling._id });
-            let awakenGiant = new Book({ title: title_awakenGiant, author: tonyRobbins._id });
+            const author = await Author.findOne({ name: book_author });
 
-            await harryPotter.save();
-            await awakenGiant.save();
+            let book = new Book({ title: book_title, author: author._id });
 
-            jkRowling.books.push(harryPotter);
-            tonyRobbins.books.push(awakenGiant);
+            const book_saved = await book.save();
 
-            await jkRowling.save();
-            await tonyRobbins.save();
+            author.books.push(book);
+
+            const author_saved = await author.save();
 
             res.status(200).send({
-                JK_Rowling: jkRowling,
-                Tony_Robbins: tonyRobbins
+                book_: book_saved,
+                author_: author_saved
             });
 
         } catch (error) {
             console.log('createBook error:\n', error);
+            next(error)
         }
     },
     async AddTagToBook(req, res, next) {

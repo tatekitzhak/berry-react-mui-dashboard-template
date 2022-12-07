@@ -1,6 +1,7 @@
 module.exports = {
-    Author: require("./author"),
-    Book: require("./book"),
-    // Comment: require("./Comment"),
-    // Category: require("./Category")
+    Author: require("./books/author"),
+    Book: require("./books/book"),
+    Category: require("./products/category"),
+    SubCategory: require("./products/subCategory"),
+    Product: require("./products/product"),
   };

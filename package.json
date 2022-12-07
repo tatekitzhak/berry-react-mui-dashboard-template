@@ -1,5 +1,5 @@
 {
-  "name": "node_express_mongodb",
+  "name": "product-category-subcategory",
   "version": "1.0.0",
   "description": "Node Express and mongoDB",
   "main": "index.js",
@@ -16,7 +16,9 @@
     "date-fns": "^2.23.0",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
+    "express-rate-limit": "^6.7.0",
     "helmet": "^6.0.1",
+    "hpp": "^0.2.3",
     "mongoose": "^6.7.5",
     "morgan": "^1.10.0",
     "uuid": "^8.3.2"

@@ -1,43 +1,33 @@
 const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
-const { Author, Book } = require('../model/index')
+const { Category, Book } = require('../../models/index')
 
 module.exports = {
-    async getAllBooks(req, res, next) {
+    async getAllCategory(req, res, next) {
         try {
-            const books = await Book.find().populate('author');
-            res.send(books);
+            const item = await Category.find(); //.populate('Automotive and Transport');
+            res.send(item);
         } catch (err) {
             next(err);
         }
     },
-    async createBookAndReferenceToAuthorById(req, res, next) {
+    async createCategory(req, res, next) {
         try {
-            const { subtitle, title, authorId } = req.body[0];
-            console.log('createBook :\n', subtitle, title, authorId);
+            const categoryItem = req.body;
+            console.log('categoryItem:\n', categoryItem);
 
-            if (!ObjectId.isValid(authorId)) {
-                throw new Error('author object id not passed');
-              }
+            for (item of categoryItem) {
+                var newCategory = new Category(item);
+                await newCategory.save();
+            }
 
-            const author = await Author.findOne({ _id: authorId });
-            console.log('author :\n', author);
-
-            let book = new Book({ title: title, subtitle: subtitle, author: authorId});
-
-            const book_saved = await book.save();
-
-            author.books.push(book);
-
-            const author_saved = await author.save();
-
-            res.status(200).send({
-                book_: book_saved,
-                author_: author_saved
-            });
+            const a = await Category.find();
+            console.log('Category: ', a);
+            
+            res.status(200).json({ Category: a});
 
         } catch (error) {
-            console.log('createBook error:\n', error);
+            console.log('error:\n', error);
             next(error)
         }
     },

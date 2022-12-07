@@ -6,6 +6,7 @@ var router1Router = require("../routes/router1");
 var router2Router = require("../routes/router2");
  */
 var bookRouter = require('./book/route');
+var categoryRouter = require('./product/route');
 
 module.exports = function (app) {
     app.use(express.json());
@@ -15,4 +16,5 @@ module.exports = function (app) {
     app.use("/router2", router2Router);
  */
     app.use("/", apiRateNetworkTrafficLimiter, bookRouter);
+    app.use("/", apiRateNetworkTrafficLimiter, categoryRouter);
 };

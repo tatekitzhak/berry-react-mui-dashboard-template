@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const categorySchema = mongoose.Schema({
   name: { 
   	type: String, 
-  	required: '{PATH} is required!'
+    required: '{PATH} is required!',
+    unique: true
   },
-  bio: {
+  subtitle: {
   	type: String
   },
   website: {
@@ -21,4 +22,4 @@ const categorySchema = mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('category', categorySchema);
+module.exports = mongoose.model('categorie', categorySchema);

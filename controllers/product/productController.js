@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
-const { Author, Book } = require('../model/index')
+const { Product } = require('../../models/index')
 
 module.exports = {
-    async getAllBooks(req, res, next) {
+    async getAllProduct(req, res, next) {
         try {
             const books = await Book.find().populate('author');
             res.send(books);
@@ -11,38 +11,23 @@ module.exports = {
             next(err);
         }
     },
-    async createBookAndReferenceToAuthorById(req, res, next) {
+    async createProduct(req, res) {
         try {
-            const { subtitle, title, authorId } = req.body[0];
+            const product = req.body;
+            console.log('products:\n', product);
+/* 
+            for (author of authors) {
+                var newAuthor = new Author(author);
+                await newAuthor.save();
+            }
 
-            // const book_title = books[0].title;
-            // const subtitle = books[0].subtitle;
-            // const authorId = books[0].author;
-            console.log('createBook :\n', subtitle, title, authorId);
-
-            if (!ObjectId.isValid(authorId)) {
-                throw new Error('author object id not passed');
-              }
-
-            const author = await Author.findOne({ _id: authorId });
-            console.log('author :\n', author);
-
-            let book = new Book({ title: title, subtitle: subtitle, author: authorId});
-
-            const book_saved = await book.save();
-
-            author.books.push(book);
-
-            const author_saved = await author.save();
-
-            res.status(200).send({
-                book_: book_saved,
-                author_: author_saved
-            });
+            const a = await Author.find();
+            console.log('authors: ', a);
+             */
+            res.status(200).json({ product: req.body });
 
         } catch (error) {
-            console.log('createBook error:\n', error);
-            next(error)
+            console.log('error:\n', error);
         }
     },
     async AddTagToBook(req, res, next) {

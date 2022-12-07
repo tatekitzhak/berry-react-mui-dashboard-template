@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Author, Book } = require('../model/index');
+const { Author, Book } = require('../../models/index');
 
 const AuthorsController = {
     async findAll(req, res) {

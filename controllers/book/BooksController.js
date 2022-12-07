@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
-const { Author, Book } = require('../model/index')
+const { Author, Book } = require('../../models/index')
 
 module.exports = {
     async getAllBooks(req, res, next) {

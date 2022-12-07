@@ -5,12 +5,11 @@ const cors = require('cors');
 const helmet = require('helmet'); // Set security HTTP headers
 var hpp = require('hpp'); // Express middleware to protect against HTTP Parameter Pollution attacks
 
-const { apiRateNetworkTrafficLimiter,
-  apiLimiter_15_minutes,
+const { apiLimiter_15_minutes,
   createAccountLimiter_1_hour } = require('./middlewares/rateLimiter'); // Rate limiting is a technique used to control the amount of incoming or outgoing
 const globalErrHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
-const mongooseConnection = require('./db/connection');
+const { mongooseConnection } = require('./db/connection');
 const { port } = require('./config/env');
 const app = express();
 
@@ -28,11 +27,9 @@ mongooseConnection('index.js');
 // General page
 app.get('/', apiLimiter_15_minutes, (req, res, next) => {
   res.json({ page: 'Home pag!' })
-  next()
+
 });
 
-// Category
-// app.use('/', apiRateNetworkTrafficLimiter, require('./routes/route'));
 
 require('./routes/index')(app);
 

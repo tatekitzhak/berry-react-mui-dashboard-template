@@ -14,13 +14,13 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
-  Category: {
-    type: mongoose.Schema.Types.ObjectId, ref: 'Category',
+  categories: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'categories',
     required: '{PATH} is required!'
   },
-  SubCategory: {
-    type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory',
-    required: false
+  subcategories: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'subcategories',
+    required: '{PATH} is required!'
   },
   countInStock: {
     type: Number,

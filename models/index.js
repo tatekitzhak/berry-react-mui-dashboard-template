@@ -1,7 +1,7 @@
 module.exports = {
     Author: require("./books/author"),
     Book: require("./books/book"),
-    Category: require("./products/category"),
-    SubCategory: require("./products/subCategory"),
-    Product: require("./products/product"),
+    Categorie: require("./store/categorie"),
+    Subcategorie: require("./store/subcategorie"),
+    Product: require("./store/product"),
   };

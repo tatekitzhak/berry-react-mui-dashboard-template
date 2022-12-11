@@ -1,37 +1,37 @@
 const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
-const { Category, Book } = require('../../models/index')
+const { Categorie, Book } = require('../../models/index')
 
 module.exports = {
-    async getAllCategory(req, res, next) {
+    async getAllCategories(req, res, next) {
         try {
-            const item = await Category.find(); //.populate('Automotive and Transport');
+            const item = await Categorie.find(); //.populate('Automotive and Transport');
             res.send(item);
         } catch (err) {
             next(err);
         }
     },
-    async createCategory(req, res, next) {
+    async createCategorie(req, res, next) {
         try {
-            const categoryItem = req.body;
-            console.log('categoryItem:\n', categoryItem);
+            const newCategories = req.body;
+            console.log('CategorieItem:\n', newCategories);
 
-            for (item of categoryItem) {
-                var newCategory = new Category(item);
-                await newCategory.save();
+            for (newItem of newCategories) {
+                var item = new Categorie(newItem);
+                await item.save();
             }
 
-            const a = await Category.find();
-            console.log('Category: ', a);
+            const a = await Categorie.find();
+            console.log('Categorie: ', a);
             
-            res.status(200).json({ Category: a});
+            res.status(200).json({ Categorie: a});
 
         } catch (error) {
             console.log('error:\n', error);
             next(error)
         }
     },
-    async AddTagToBook(req, res, next) {
+    async addSubcategories(req, res, next) {
         try {
             const { bookId, TagId } = req.params;
             const newBook = await Book.findByIdAndUpdate(

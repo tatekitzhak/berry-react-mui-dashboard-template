@@ -4,7 +4,7 @@ module.exports = {
   env: process.env.NODE_ENV,
   port: process.env.PORT || 3900,
   mongo: {
-    uri: "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1" //process.env.NODE_ENV === 'test' ? process.env.MONGO_URI_TESTS : process.env.MONGO_URI,
+    uri: "mongodb://127.0.0.1:27017/products_store",
   },
   logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
   emailConfig: {

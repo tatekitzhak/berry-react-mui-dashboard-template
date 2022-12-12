@@ -47,10 +47,8 @@ module.exports = {
     async createSubcategorieAndAddToCategories(req, res, next) {
         try {
             const categorieId = req.params;
-            const subcategories = req.body;
+            const { title, subtitle } = req.body[0];
 
-            console.log('categorieId:\n', categorieId);
-            console.log('categorie:\n', subcategories);
             /*  const book = req.body;
              const newBook = await Book.create(book);
              const newTag = await Tag.findByIdAndUpdate(
@@ -64,24 +62,31 @@ module.exports = {
                 return next(new Error('Categorie ID object id not passed\n'));
 
             } else {
-                
-            const categorie = await Categorie.findById(categorieId.id, function (error, docs) {
-                    if (error){
+               
+                const categorie = await Categorie.findById(categorieId.id, function (error, docs) {
+                    if (error) {
                         console.log('err findById:', error);
                         return next(new Error('Mongoose findById method not properly casting to id strings to ObjectId'));
                     }
-                    else{
+                    else {
                         console.log("findById Result : ", docs);
                         return docs;
                     }
                 }).clone();
-                
+                // Create and save new document
+                const new_subcategorie = new Subcategorie({ title: title, subtitle: subtitle, categories: categorie});
+                const subcategorie_saved = await new_subcategorie.save();
+
+                // Referencing schema to categorie(schema) and Pushing documents to another document as array elements
+                categorie.subcategories.push(new_subcategorie);
+                const categorie_saved = categorie.save();
                 // return success response
-                return res.status(200).json({ 
+                return res.status(200).json({
                     categorieId: categorieId,
-                    subcategories: subcategories,
+                    title, subtitle,
+                    categorie_saved,
                     categorie: categorie
-                 });
+                });
             }
         } catch (err) {
             next(err);

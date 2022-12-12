@@ -5,8 +5,19 @@ const { Categorie, Book } = require('../../models/index')
 module.exports = {
     async getAllCategories(req, res, next) {
         try {
-            const item = await Categorie.find(); //.populate('Automotive and Transport');
-            res.send(item);
+            //const item = await Categorie.find().populate('Automotive and Transport');
+            // const popluatedClaim = await Claim.findById(insertedClaim._id).populate({ path: "billed_insurances",});
+            /* const item1 = await Categorie.findOne({ name: 'Food and Beverage' })
+                .populate('subcategories').exec((err, doc) => {
+                    if (err) {
+                        return console.log('populate subcategories:', err);
+                    }
+                    console.log('subcategories doc:', doc);
+                    return doc;
+                }) */;
+            const item2 = await Categorie.findById('6395aab7746609953339901c');
+
+            res.json({ item2 });
         } catch (err) {
             next(err);
         }
@@ -23,8 +34,8 @@ module.exports = {
 
             const a = await Categorie.find();
             console.log('Categorie: ', a);
-            
-            res.status(200).json({ Categorie: a});
+
+            res.status(200).json({ Categorie: a });
 
         } catch (error) {
             console.log('error:\n', error);

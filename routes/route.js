@@ -1,5 +1,5 @@
 const express = require('express');
-const { AuthorsController, BooksController } = require('../controllers/index');
+const { AuthorsController, BooksController, BooksReviewController, UsersController } = require('../controllers/index');
 
 const router = express.Router();
 
@@ -14,4 +14,10 @@ router.route('/authors')
       .get(BooksController.getAllBooks)
       .post(BooksController.createBookAndReferenceToAuthorById);
 
+    router.route('/book-review')
+        .get(BooksReviewController.getAllBookReviews);
+    
+    router.route('/user')
+        .get(UsersController.findAllUsers)
+        .post(UsersController.createUser);
 module.exports = router;

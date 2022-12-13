@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
-const { Author, Book } = require('../model/index')
+const { Author, Book } = require('../../model/index');
 
 module.exports = {
     async getAllBooks(req, res, next) {
@@ -12,33 +12,33 @@ module.exports = {
         }
     },
     async createBookAndReferenceToAuthorById(req, res, next) {
+
+        const { name, title } = req.body[0];
+        const authorId = req.params.id;
+
         try {
-            const { subtitle, title, authorId } = req.body[0];
-
-            // const book_title = books[0].title;
-            // const subtitle = books[0].subtitle;
-            // const authorId = books[0].author;
-            console.log('createBook :\n', subtitle, title, authorId);
-
             if (!ObjectId.isValid(authorId)) {
-                throw new Error('author object id not passed');
-              }
+                return next(new Error('author object id not passed'))
+            } else {
+                const author = await Author.findOne({ _id: authorId });
 
-            const author = await Author.findOne({ _id: authorId });
-            console.log('author :\n', author);
+                let book = new Book({
+                    name: name,
+                    title: title,
+                    author: authorId
+                });
 
-            let book = new Book({ title: title, subtitle: subtitle, author: authorId});
+                const book_saved = await book.save();
 
-            const book_saved = await book.save();
+                author.books.push(book);
 
-            author.books.push(book);
+                const author_saved = await author.save();
 
-            const author_saved = await author.save();
-
-            res.status(200).send({
-                book_: book_saved,
-                author_: author_saved
-            });
+                res.status(200).send({
+                    book_saved,
+                    author_saved
+                });
+            }
 
         } catch (error) {
             console.log('createBook error:\n', error);

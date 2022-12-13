@@ -1,5 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const { Author, Book, BookReview } = require('../../model/index');
+const { Author, Book, BookReview, User } = require('../../model/index');
 
 module.exports = {
     async getAllBookReviews(req, res, next) {
@@ -10,32 +10,34 @@ module.exports = {
             next(err);
         }
     },
-    async createBookAndReferenceToAuthorById(req, res, next) {
+    async createBookReviewAndReferenceToUserAndBook(req, res, next) {
 
-        const { name, title } = req.body[0];
-        const authorId = req.params.id;
-
+        const { review, comments, rating } = req.body[0];
+        const { userId, bookId } = req.params;
+        console.log('user_id, book_id:', req.params);
+        console.log('review, comments, rating:', review, comments, rating);
         try {
-            if (!ObjectId.isValid(authorId)) {
-                return next(new Error('author object id not passed'))
+            if (!ObjectId.isValid(userId) && !ObjectId.isValid(bookId)) {
+                return next(new Error('ObjectIds is invalid!'))
             } else {
-                const author = await Author.findOne({ _id: authorId });
-
-                let book = new Book({
-                    name: name,
-                    title: title,
-                    author: authorId
+                const user = await User.findOne({ _id: userId });
+                const book = await Book.findOne({ _id: bookId });
+ 
+                let new_book_review = new BookReview({
+                    review: review,
+                    comments: comments,
+                    rating: rating
                 });
 
-                const book_saved = await book.save();
-
+                const book_review = await new_book_review.save();
+/*
                 author.books.push(book);
 
                 const author_saved = await author.save();
-
+ */
                 res.status(200).send({
-                    book_saved,
-                    author_saved
+                    user,
+                    book
                 });
             }
 

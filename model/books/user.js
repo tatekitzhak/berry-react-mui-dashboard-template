@@ -20,7 +20,7 @@ const Email = new Schema({
 		index: true
 	},
 	// Change the default to true if you don't need to validate a new user's email address
-	validated: { type: Boolean, default: false }
+	validated: { type: Boolean, default: true }
 
 });
 
@@ -43,7 +43,7 @@ const UserSchema = new Schema({
 		lowercase: true,
 		unique: true,
 		required: [true, "{PATH} can't be blank"],
-		match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+		match: [/^[a-zA-Z0-9]+$/, '{PATH} is invalid'],
 		index: true
 	},
 	//Our password is hashed with bcrypt
@@ -70,7 +70,12 @@ const UserSchema = new Schema({
 			}
 		}
 	},
-	active: { type: Boolean, default: true }
+	active: { type: Boolean, default: true },
+	reviews: [
+		{
+		  type: mongoose.Schema.Types.ObjectId, ref: 'reviews'
+		}
+	  ]
 
 }, {
 	timestamps: true

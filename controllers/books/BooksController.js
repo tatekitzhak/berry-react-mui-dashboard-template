@@ -41,7 +41,7 @@ module.exports = {
             }
 
         } catch (error) {
-            console.log('createBook error:\n', error);
+            console.log('error at createBookAndReferenceToAuthorById :\n', error);
             next(error)
         }
     },

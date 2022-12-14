@@ -4,7 +4,7 @@ const { Author, Book, BookReview, User } = require('../../model/index');
 module.exports = {
     async getAllBookReviews(req, res, next) {
         try {
-            const booReviews = await BookReview.find();
+            const booReviews = await BookReview.find().populate('user').populate('book');
             res.status(200).json(booReviews);
         } catch (err) {
             next(err);
@@ -14,26 +14,28 @@ module.exports = {
 
         const { review, comments, rating } = req.body[0];
         const { userId, bookId } = req.params;
-        console.log('user_id, book_id:', req.params);
-        console.log('review, comments, rating:', review, comments, rating);
+
         try {
+
             if (!ObjectId.isValid(userId) && !ObjectId.isValid(bookId)) {
                 return next(new Error('ObjectIds is invalid!'))
             } else {
                 const user = await User.findOne({ _id: userId });
                 const book = await Book.findOne({ _id: bookId });
- 
+
                 let new_book_review = new BookReview({
                     review: review,
                     comments: comments,
-                    rating: rating
+                    rating: rating,
+                    book: book,
+                    user: user
                 });
 
                 const book_review = await new_book_review.save();
-/*
-                author.books.push(book);
+/* 
+                book.reviews.push(book_review);
 
-                const author_saved = await author.save();
+                const book_saved = await book.save();
  */
                 res.status(200).send({
                     user,
@@ -42,7 +44,7 @@ module.exports = {
             }
 
         } catch (error) {
-            console.log('createBook error:\n', error);
+            console.log('error at createBookReviewAndReferenceToUserAndBook:\n', error);
             next(error)
         }
     },

@@ -45,3 +45,6 @@ pids
 Icon?
 ehthumbs.db
 Thumbs.db
+
+model/books/message.js
+model/books/ticket.js

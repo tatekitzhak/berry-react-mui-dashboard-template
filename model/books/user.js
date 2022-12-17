@@ -14,6 +14,7 @@ const mongoose = require('mongoose'),
 const Email = new Schema({
 	address: {
 		type: String,
+		unique: true,
 		lowercase: true,
 		required: [true, "{PATH} can't be blank"],
 		match: [/\S+@\S+\.\S+/, 'is invalid'],
@@ -57,6 +58,9 @@ const UserSchema = new Schema({
 		lastName: String,
 		avatar: String,
 		bio: String,
+		birthday: {
+			type: Date
+		},
 		address: {
 			street1: String,
 			street2: String,
@@ -70,29 +74,71 @@ const UserSchema = new Schema({
 			}
 		}
 	},
+	role: {
+		type: String, enum: ['user', 'admin'],
+		required: false
+	},
 	active: { type: Boolean, default: true },
+	status:{
+		type:String,
+		enum:['active','inactive','frequent'],
+		default:'active'
+	},
 	reviews: [
 		{
-		  type: mongoose.Schema.Types.ObjectId, ref: 'reviews'
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'reviews'
 		}
-	  ]
-
+	],
+	books: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'books'
+		}
+	]
 }, {
 	timestamps: true
 });
 
 UserSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-UserSchema.pre("save", function (next) {
-	if (!this.isModified("password")) {
+UserSchema.pre("save", async function (next) {
+
+	try {
+		if (!this.isModified("password")) {
+			return next();
+		}
+		this.password = bcrypt.hashSync(this.password, 10);
+
 		return next();
+	} catch (error) {
+		return next(error);
 	}
-	this.password = bcrypt.hashSync(this.password, 10);
-	next();
 });
 
 UserSchema.methods.comparePassword = function (plaintext, callback) {
 	return callback(null, bcrypt.compareSync(plaintext, this.password));
 };
+/**
+ 
+[
+    {
+        "username":"ran",
+        "password": "ran",
+        "email":{
+            "address":"ran@gmail.com"
+        },
+        "profile": {
+            "address": {
+                "street1": "Israel",
+                "city": "TLV"
+            },
+            "firstName": "Ran",
+            "lastName": "Itzhak",
+            "bio": "My favourite fruit is apples and bananas."
+        }
+    }
+]
+ */
 
 module.exports = mongoose.model("User", UserSchema);

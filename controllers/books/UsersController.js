@@ -36,7 +36,6 @@ module.exports = {
     },
     async createUser(req, res, next) {
         const users = req.body;
-        console.log("user:\n", users)
         try {
 
             for (user of users) {

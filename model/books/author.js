@@ -20,7 +20,10 @@ const authorSchema = new Schema({
     unique: true
   },
   books: [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'Book' }
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Book'
+    }
   ]
 }, {
   timestamps: true

@@ -3,9 +3,16 @@ const { Author, Book, BookReview, User } = require('../../model/index');
 
 module.exports = {
     async getAllBookReviews(req, res, next) {
+
         try {
             const booReviews = await BookReview.find().populate('user').populate('book');
-            res.status(200).json(booReviews);
+            if (!booReviews.length) {
+                res.status(404).json({ status: 404, message: 'Data is empty' });
+
+            } else {
+                res.status(200).json({ booReviews: booReviews });
+            }
+
         } catch (err) {
             next(err);
         }
@@ -13,7 +20,7 @@ module.exports = {
     async createBookReviewAndReferenceToUserAndBook(req, res, next) {
 
         const { review, comments, rating } = req.body[0];
-        const { userId, bookId } = req.params;
+        const { bookId, userId } = req.params;
 
         try {
 
@@ -32,14 +39,16 @@ module.exports = {
                 });
 
                 const book_review = await new_book_review.save();
-/* 
+                // Reference To User And Book
+                user.reviews.push(book_review);
                 book.reviews.push(book_review);
 
-                const book_saved = await book.save();
- */
+                user_saved = await user.save();
+                book_saved = await book.save();
+
                 res.status(200).send({
-                    user,
-                    book
+                    user_saved,
+                    book_saved
                 });
             }
 

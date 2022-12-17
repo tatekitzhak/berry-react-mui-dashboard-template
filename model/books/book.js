@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const bookSchema = mongoose.Schema({
-  name: {
+  bookName: {
     type: String,
     required: '{PATH} is required!',
     unique: true
@@ -17,7 +17,8 @@ const bookSchema = mongoose.Schema({
   },
   reviews: [
     {
-      type: mongoose.Schema.Types.ObjectId, ref: 'Review'
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Review'
     }
   ]
 }, {

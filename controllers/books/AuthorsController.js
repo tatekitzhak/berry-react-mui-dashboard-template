@@ -5,7 +5,16 @@ module.exports = {
 
         try {
 
-            const authors = await Author.find().populate('books');
+            const authors = await Author.find().populate({
+                path: 'books',
+                populate: {
+                    path: 'reviews',
+                    populate:{
+                        path: 'user'
+                    }
+                }
+            });
+
             console.log('AuthorsController findAll:\n', authors);
 
             if (!authors.length) {

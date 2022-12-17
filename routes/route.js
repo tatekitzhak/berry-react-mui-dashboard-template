@@ -14,7 +14,7 @@ router.route('/authors')
       .get(BooksController.getAllBooks)
       .post(BooksController.createBookAndReferenceToAuthorById);
 
-    router.route('/book-review/:userId?/:bookId?')
+    router.route('/book-review/:bookId?/:userId?')
         .get(BooksReviewController.getAllBookReviews)
         .post(BooksReviewController.createBookReviewAndReferenceToUserAndBook);
     

@@ -74,28 +74,27 @@ const UserSchema = new Schema({
 			}
 		}
 	},
+	gender:{
+		type:String,
+		enum:['male','female','others']
+	},
 	role: {
-		type: String, enum: ['user', 'admin'],
+		type: String, enum: ['user', 'admin','root'],
 		required: false
 	},
-	active: { type: Boolean, default: true },
 	status:{
 		type:String,
 		enum:['active','inactive','frequent'],
 		default:'active'
 	},
-	reviews: [
-		{
+	reviews: [{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'reviews'
-		}
-	],
-	books: [
-		{
+			ref: 'Review'
+		}],
+	books: [{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'books'
-		}
-	]
+			ref: 'Book'
+		}]
 }, {
 	timestamps: true
 });

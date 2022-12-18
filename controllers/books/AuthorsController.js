@@ -1,7 +1,7 @@
 const { Author, Book } = require('../../model/index');
 
 module.exports = {
-    async findAll(req, res) {
+    async findAll(req, res, next) {
 
         try {
 
@@ -15,8 +15,6 @@ module.exports = {
                 }
             });
 
-            console.log('AuthorsController findAll:\n', authors);
-
             if (!authors.length) {
                 res.status(404).json({ status: 404, message: 'Data is empty' });
 
@@ -24,9 +22,9 @@ module.exports = {
                 res.status(200).json({ authors: authors });
             }
 
-            console.log('authors:');
         } catch (error) {
             console.log('error:\n', error);
+            next(error)
         }
     },
     async findById(req, res) {
